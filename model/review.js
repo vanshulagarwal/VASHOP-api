@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
     author: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    name: {
+    title: {
         type: String,
         required: true
     },

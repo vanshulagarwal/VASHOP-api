@@ -13,7 +13,7 @@ exports.createProduct = async (req, res, next) => {
 
 exports.getAllProducts = async (req, res, next) => {
     const apiFeatures=new ApiFeatures(Product.find(),req.query).search().filter();
-    const products = await apiFeatures.query;
+    const products = await apiFeatures.query.populate('reviews');
     // const products = await Product.find().populate('reviews');
     res.status(201).json({
         sucess: true,
@@ -23,8 +23,7 @@ exports.getAllProducts = async (req, res, next) => {
 
 exports.getProduct = async (req, res, next) => {
     const { id } = req.params;
-    const product = await Product.findById(id);
-    // const product = await Product.findById(id).populate('reviews');
+    const product = await Product.findById(id).populate('reviews');
     if (!product) {
         return next(new ErrorHand("Product Not Found", 404));
     }

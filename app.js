@@ -6,6 +6,7 @@ const express = require('express');
 const mongoose=require('mongoose');
 const app = express();
 const productRoutes=require('./routes/product');
+const reviewRoutes=require('./routes/review');
 const errorMiddleware=require('./middlewares/error');
 const ErrorHand = require('./utils/errorhand');
 
@@ -23,30 +24,10 @@ mongoose.connect(dbUrl)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use('/api/v1',productRoutes);
+app.use('/api/v1/products',productRoutes);
+app.use('/api/v1/products/:id',reviewRoutes);
 
 app.use(errorMiddleware);
-
-const handleValidationErr = err => {
-    console.log(err);
-    return new ErrorHand(`Validation Failed... ${err.message}`);
-}
-
-app.use((err, req, res, next) => {
-    console.log(err.name);
-    if (err.name === 'ValidationError') {
-        err = handleValidationErr(err);
-    }
-    next(err);
-})
-
-app.use((err, req, res, next) => {
-    const { status = 500 } = err;
-    if (!err.message) err.message = 'Oh no! Something went Wrong!';
-    console.log("****error****", err);
-    res.status(status).render('error', { err });
-    next(err);
-})
 
 
 const port = process.env.PORT || 3000;
