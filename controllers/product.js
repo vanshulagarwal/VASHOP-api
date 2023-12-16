@@ -1,4 +1,5 @@
 const Product = require('../model/product');
+const ApiFeatures = require('../utils/apiFeatures');
 const ErrorHand = require('../utils/errorhand');
 
 exports.createProduct = async (req, res, next) => {
@@ -11,7 +12,8 @@ exports.createProduct = async (req, res, next) => {
 }
 
 exports.getAllProducts = async (req, res, next) => {
-    const products = await Product.find();
+    const apiFeatures=new ApiFeatures(Product.find(),req.query).search().filter();
+    const products = await apiFeatures.query;
     // const products = await Product.find().populate('reviews');
     res.status(201).json({
         sucess: true,
