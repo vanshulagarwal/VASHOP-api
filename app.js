@@ -7,6 +7,7 @@ const mongoose=require('mongoose');
 const app = express();
 const productRoutes=require('./routes/product');
 const reviewRoutes=require('./routes/review');
+const userRoutes=require('./routes/user');
 const errorMiddleware=require('./middlewares/error');
 const ErrorHand = require('./utils/errorhand');
 
@@ -26,6 +27,7 @@ app.use(express.json());
 
 app.use('/api/v1/products',productRoutes);
 app.use('/api/v1/products/:id',reviewRoutes);
+app.use('/api/v1/',userRoutes);
 
 app.use(errorMiddleware);
 
