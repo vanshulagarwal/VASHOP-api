@@ -10,6 +10,8 @@ module.exports.addReview = async (req, res, next) => {
     }
     const review = new Review({ author: req.user._id, ...req.body });
     product.reviews.push(review);
+    product.rating=(product.rating+review.rating)/(product.numOfReviews+1);
+    product.numOfReviews+=1;
     await review.save();
     await product.save();
 

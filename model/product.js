@@ -27,6 +27,10 @@ const productSchema = mongoose.Schema({
         type: String,
         required: [true, "Product must have an image"]
     },
+    numOfReviews:{
+        type:Number,
+        default:0
+    },
     reviews: [
         {
             type: mongoose.Schema.Types.ObjectId,
