@@ -20,6 +20,18 @@ module.exports = (err, req, res, next) => {
 
         });
     }
+    else if (err.name === "JsonWebTokenError") {
+        res.status(400).json({
+            success: false,
+            message: "Json Web Token is invalid",
+        });
+    }
+    else if (err.name === "TokenExpiredError") {
+        res.status(400).json({
+            success: false,
+            message: "Json Web Token is expired",
+        });
+    }
     else {
         res.status(statusCode).json({
             success: false,

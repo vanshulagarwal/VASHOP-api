@@ -10,6 +10,7 @@ const reviewRoutes=require('./routes/review');
 const userRoutes=require('./routes/user');
 const errorMiddleware=require('./middlewares/error');
 const ErrorHand = require('./utils/errorhand');
+const cookieParser=require('cookie-parser');
 
 const dbUrl = process.env.ATLAS_URL || 'mongodb://127.0.0.1:27017/ecommerce';
 mongoose.connect(dbUrl)
@@ -24,6 +25,7 @@ mongoose.connect(dbUrl)
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api/v1/products',productRoutes);
 app.use('/api/v1/products/:id',reviewRoutes);
