@@ -10,6 +10,11 @@ const productSchema = mongoose.Schema({
         type: String,
         required: [true, "Product description cannot be empty"]
     },
+    oldPrice: {
+        type: Number,
+        required: [true, "Product price cannot be empty"],
+        maxLength: [8, "Price cannot be more than 8 figures"]
+    },
     price: {
         type: Number,
         required: [true, "Product price cannot be empty"],
@@ -24,6 +29,10 @@ const productSchema = mongoose.Schema({
         require: [true, "Product Category cannot be empty"]
     },
     imgPath: {
+        type: String,
+        required: [true, "Product must have an image"]
+    },
+    imgPath2: {
         type: String,
         required: [true, "Product must have an image"]
     },

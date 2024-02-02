@@ -13,7 +13,7 @@ class ApiFeatures{
         } 
         : {};
 
-        console.log(keyword);
+        // console.log(keyword);
         this.query=this.query.find({...keyword});
         return this;
     }
@@ -26,12 +26,12 @@ class ApiFeatures{
         
         
         let querystr=JSON.stringify(queryfilter);
-        console.log(querystr);
+        // console.log(querystr);
         querystr=querystr.replace(/\b(gt|gte|lt|lte)\b/g,key=>`$${key}`)
 
 
         this.query=this.query.find(JSON.parse(querystr));
-        console.log(querystr);
+        // console.log(querystr);
 
         return this;
     }

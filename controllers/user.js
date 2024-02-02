@@ -9,7 +9,7 @@ module.exports.register = async (req, res, next) => {
     const foundUser = await User.findOne({ email: email });
 
     if (foundUser) {
-        return res.status(500).json({
+        return res.status(200).json({
             success: true,
             error: "Email already in use"
         })
@@ -32,7 +32,7 @@ module.exports.login = async (req, res, next) => {
     const user = await User.findAndValidate(email, password);
 
     if (!user) {
-        return next(new ErrorHand("Invalid email or password"));
+        return next(new ErrorHand("Invalid email or password",404));
     }
 
     sendjwtToken(user,200,res);
@@ -44,7 +44,7 @@ module.exports.logout=async(req,res,next)=>{
         httpOnly:true,
     });
     res.status(200).json({
-        status:true,
+        success:true,
         message:"Logged Out",
     });
 }

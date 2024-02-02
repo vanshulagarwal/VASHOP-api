@@ -8,28 +8,36 @@ module.exports = (err, req, res, next) => {
 
     console.log(err.name);
     if (err.name === 'ValidationError') {
-        res.status(statusCode).json({
+        res.status(406).json({
             success: false,
             error: `MongoDB validation error...${err.message}`
         })
     }
     else if (err.name === 'CastError') {
-        res.status(statusCode).json({
+        res.status(406).json({
             success: false,
             error: `Resource Not Found.. Invalid:${err.path}`
 
         });
     }
     else if (err.name === "JsonWebTokenError") {
-        res.status(400).json({
+        res.cookie("token", null, {
+            expires: new Date(Date.now()),
+            httpOnly: true,
+        });
+        res.status(401).json({
             success: false,
-            message: "Json Web Token is invalid",
+            error: "Json Web Token is invalid",
         });
     }
     else if (err.name === "TokenExpiredError") {
-        res.status(400).json({
+        res.cookie("token", null, {
+            expires: new Date(Date.now()),
+            httpOnly: true,
+        });
+        res.status(401).json({
             success: false,
-            message: "Json Web Token is expired",
+            error: "Json Web Token is expired",
         });
     }
     else {

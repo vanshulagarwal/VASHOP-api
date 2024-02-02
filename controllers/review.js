@@ -26,8 +26,14 @@ module.exports.deleteReview = async (req, res, next) => {
     const { id, reviewId } = req.params;
     const product = await Product.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     const review = await Review.findByIdAndDelete(reviewId);
-    product.rating = ((product.rating * product.numOfReviews) - review.rating) / (product.numOfReviews - 1);
-    product.numOfReviews -= 1;
+    if (product.numOfReviews <= 1) {
+        product.rating = 0;
+        product.numOfReviews = 0;
+    }
+    else {
+        product.rating = ((product.rating * product.numOfReviews) - review.rating) / (product.numOfReviews - 1);
+        product.numOfReviews -= 1;
+    }
     await product.save();
     res.status(200).json({
         success: true,

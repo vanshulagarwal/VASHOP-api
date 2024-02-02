@@ -12,7 +12,7 @@ exports.createProduct = async (req, res, next) => {
 }
 
 exports.getAllProducts = async (req, res, next) => {
-    const apiFeatures=new ApiFeatures(Product.find(),req.query).search().filter();
+    const apiFeatures = new ApiFeatures(Product.find(), req.query).search().filter();
     const products = await apiFeatures.query.populate('reviews');
     // const products = await Product.find().populate('reviews');
     res.status(201).json({
@@ -23,7 +23,13 @@ exports.getAllProducts = async (req, res, next) => {
 
 exports.getProduct = async (req, res, next) => {
     const { id } = req.params;
-    const product = await Product.findById(id).populate('reviews');
+    const product = await Product.findById(id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'author',
+            model: 'User'
+        }
+    });
     if (!product) {
         return next(new ErrorHand("Product Not Found", 404));
     }
