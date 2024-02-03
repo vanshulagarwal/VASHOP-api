@@ -24,6 +24,8 @@ module.exports = (err, req, res, next) => {
         res.cookie("token", null, {
             expires: new Date(Date.now()),
             httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Set to true in production
+            sameSite: 'None',
         });
         res.status(401).json({
             success: false,
@@ -34,6 +36,8 @@ module.exports = (err, req, res, next) => {
         res.cookie("token", null, {
             expires: new Date(Date.now()),
             httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Set to true in production
+            sameSite: 'None',
         });
         res.status(401).json({
             success: false,
